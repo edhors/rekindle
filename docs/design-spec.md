@@ -18,6 +18,7 @@ People with depression need a way to reconnect with hobbies and interests becaus
 - Spacing: 8px base; generous white space; avoid ornamental chrome
 - Corners: Mostly sharp 0–4px radii for a utilitarian feel
 - Shadows: Hard, offset shadows for key elements (e.g., `4px 4px 0`)—respect Reduce Motion
+ - Background motifs: Large outlined blocks, circles, and stripes placed at corners with visible offsets; avoid gradients; use low-opacity fills or outlined shapes only
 
 ## Core Components
 - Buttons: Bold 2px borders, flat fill, subtle press offset (translate `1–2px`)

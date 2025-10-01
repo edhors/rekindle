@@ -28,7 +28,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={[styles.button, { backgroundColor: tint }]}
           activeOpacity={0.9}
-          onPress={() => router.push('/microgoal')}
+          onPress={() => router.push('/choose')}
         >
           <ThemedText style={styles.buttonText}>Start</ThemedText>
         </TouchableOpacity>
@@ -185,3 +185,5 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 });
+
+

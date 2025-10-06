@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -7,6 +8,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 
 export default function HomeScreen() {
   const tint = useThemeColor({}, 'tint');
+  const [hobby, setHobby] = useState('');
 
   return (
     <ThemedView style={styles.container}>
@@ -24,11 +26,17 @@ export default function HomeScreen() {
           placeholder="e.g., Drawing, Gardening, Guitar"
           placeholderTextColor={'#6B7280'}
           style={styles.input}
+          value={hobby}
+          onChangeText={setHobby}
         />
         <TouchableOpacity
           style={[styles.button, { backgroundColor: tint }]}
           activeOpacity={0.9}
-          onPress={() => router.push('/choose')}
+          onPress={() => {
+            const value = hobby.trim();
+            if (value.length === 0) return;
+            router.push({ pathname: '/choose', params: { hobby: value } });
+          }}
         >
           <ThemedText style={styles.buttonText}>Start</ThemedText>
         </TouchableOpacity>
@@ -123,16 +131,16 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
   },
   appTitle: {
-    fontSize: 36,
+    fontSize: 50,
     fontWeight: '800',
     textTransform: 'none',
     color: '#111111',
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: '#E6F0FF',
+    paddingVertical: 28,
+    backgroundColor: 'transparent',
     shadowColor: '#111111',
     shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 1,
+    shadowOpacity: 0,
     shadowRadius: 0,
     borderRadius: 12,
   },
@@ -140,13 +148,13 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 480,
     gap: 12,
-    backgroundColor: '#E6F0FF',
+    backgroundColor: 'transparent',
     borderWidth: 0,
     borderColor: 'transparent',
     padding: 16,
     shadowColor: '#111111',
     shadowOffset: { width: 6, height: 6 },
-    shadowOpacity: 1,
+    shadowOpacity: 0,
     shadowRadius: 0,
     borderRadius: 12,
   },

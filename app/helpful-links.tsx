@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
+import { ExternalLink } from '@/components/external-link';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useThemeColor } from '@/hooks/use-theme-color';
 
-export default function MicrogoalScreen() {
-  const tint = useThemeColor({}, 'tint');
-  const [microgoal, setMicrogoal] = useState('');
-  const [microgoals, setMicrogoals] = useState<string[]>([]);
+export default function HelpfulLinksScreen() {
+  const { hobby } = useLocalSearchParams();
 
   return (
     <ThemedView style={styles.container}>
@@ -19,35 +17,30 @@ export default function MicrogoalScreen() {
       <ThemedView style={styles.shapeTall} pointerEvents="none" />
       <ThemedView style={styles.shapeSmallCircle} pointerEvents="none" />
       <ThemedView style={styles.shapeDiamond} pointerEvents="none" />
-      <ThemedText type="title" style={styles.title}>Create a microgoal</ThemedText>
+      <ThemedText type="title" style={styles.hobby}>Helpful Links: </ThemedText>
       <ThemedView style={styles.card}>
-        <ThemedText style={styles.prompt}>What tiny step will you take?</ThemedText>
-        <TextInput
-          placeholder="e.g., Sketch for 2 minutes"
-          placeholderTextColor={'#6B7280'}
-          style={styles.input}
-          value={microgoal}
-          onChangeText={setMicrogoal}
-        />
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: tint }]}
-          activeOpacity={0.9}
-          onPress={() => {
-            const value = microgoal.trim();
-            if (value.length === 0) return;
-            setMicrogoals((prev) => [...prev, value]);
-            setMicrogoal('');
-          }}
-        >
-          <ThemedText style={styles.buttonText}>Save</ThemedText>
-        </TouchableOpacity>
+        <ThemedText style={styles.prompt}>Helpful resources for {hobby}:</ThemedText>
+        <ExternalLink href={`https://www.youtube.com/results?search_query=beginner+${hobby}+tutorial`}>
+          <ThemedText style={styles.link}>• Watch beginner tutorials on YouTube</ThemedText>
+        </ExternalLink>
+        <ExternalLink href={`https://www.reddit.com/r/hobbies/search/?q=${hobby}&restrict_sr=1`}>
+          <ThemedText style={styles.link}>• Find {hobby} communities on Reddit</ThemedText>
+        </ExternalLink>
+        <ExternalLink href={`https://www.coursera.org/search?query=${hobby}`}>
+          <ThemedText style={styles.link}>• Take an online course</ThemedText>
+        </ExternalLink>
+        <ExternalLink href={`https://www.meetup.com/find/?keywords=${hobby}`}>
+          <ThemedText style={styles.link}>• Join local {hobby} groups</ThemedText>
+        </ExternalLink>
       </ThemedView>
-      <ThemedView style={styles.grid}>
-        {microgoals.map((item, index) => (
-          <ThemedView key={`${item}-${index}`} style={styles.gridItem}>
-            <ThemedText lightColor="#111111" darkColor="#111111">{item}</ThemedText>
-          </ThemedView>
-        ))}
+      <ThemedView style={styles.card}>
+        <ThemedText style={styles.prompt}>Helpful resources for depression:</ThemedText>
+        <ExternalLink href={`https://www.youtube.com/results?search_query=depression+therapy`}>
+          <ThemedText style={styles.link}>• Watch depression therapy tutorials on YouTube</ThemedText>
+        </ExternalLink>
+        <ExternalLink href={`https://www.reddit.com/r/depression/search/?q=therapy&restrict_sr=1`}>
+          <ThemedText style={styles.link}>• Find depression therapy communities on Reddit</ThemedText>
+        </ExternalLink>
       </ThemedView>
     </ThemedView>
   );
@@ -63,25 +56,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
     position: 'relative',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '800',
-    opacity:0.95,
+  hobby: {
+    backgroundColor: '#E6F0FF',
     color: '#111111',
+    fontWeight: '800',
+    borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: '#E6F0FF',
-    shadowColor: '#111111',
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    borderRadius: 12,
   },
   card: {
     width: '100%',
     maxWidth: 480,
-    gap: 12,
-    opacity:0.95,
+    gap: 16,
     backgroundColor: '#E6F0FF',
     borderWidth: 0,
     borderColor: 'transparent',
@@ -96,56 +82,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#111111',
     fontWeight: '700',
+    marginBottom: 8,
   },
-  input: {
-    width: '100%',
-    maxWidth: 420,
-    borderWidth: 2,
-    borderColor: '#0A7EA4',
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 12,
-    color: '#111111',
-    backgroundColor: '#FFFFFF',
-  },
-
-  
-  grid: {
-    width: '100%',
-    maxWidth: 480,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    backgroundColor: 'transparent',
-    shadowColor: '#111111',
-    shadowOffset: { width: 6, height: 6 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    borderRadius: 12,
-  },
-  gridItem: {
-    width: '48%',
-    backgroundColor: '#E6F0FF',
-    borderRadius: 12,
-    padding: 12,
-  },
-  button: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: '#111111',
-    alignSelf: 'flex-start',
-    shadowColor: '#111111',
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-  },
-  buttonText: {
-    color: '#fff',
+  link: {
     fontSize: 16,
-    fontWeight: '800',
-    letterSpacing: 0.5,
+    color: '#0A7EA4',
+    textDecorationLine: 'underline',
+    paddingVertical: 4,
   },
   shapeSquare: {
     position: 'absolute',
@@ -223,5 +166,3 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
   },
 });
-
-
